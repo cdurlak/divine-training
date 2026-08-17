@@ -3,74 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sekou Kaba's Divine Training</title>
+    <title>Divine Training</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fafafa; color: #2c3e50; }
-        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; text-align: center; }
-        header h1 { font-size: 28px; font-weight: 700; margin-bottom: 5px; }
-        header p { font-size: 13px; opacity: 0.95; }
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        .auth-container { background: white; padding: 40px; border-radius: 12px; max-width: 420px; margin: 40px auto; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-        .auth-tabs { display: flex; gap: 12px; margin-bottom: 35px; }
-        .auth-tabs button { flex: 1; padding: 12px; background: #f0f2f5; border: none; border-radius: 8px; font-weight: 600; color: #666; cursor: pointer; }
-        .auth-tabs button.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        .form-group { margin-bottom: 16px; }
-        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; }
-        input, select { width: 100%; padding: 12px; border: 1.5px solid #e0e3e8; border-radius: 8px; font-size: 14px; font-family: inherit; }
-        input:focus, select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
-        button { width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
-        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.3); }
-        .hidden { display: none; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; background: #0f1419; color: #e0e6ed; overflow-x: hidden; position: relative; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%), radial-gradient(circle at 40% 0%, rgba(99, 102, 241, 0.05) 0%, transparent 40%); pointer-events: none; z-index: 0; }
+        body::after { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image:
+            linear-gradient(0deg, transparent 24%, rgba(99, 102, 241, 0.03) 25%, rgba(99, 102, 241, 0.03) 26%, transparent 27%, transparent 74%, rgba(99, 102, 241, 0.03) 75%, rgba(99, 102, 241, 0.03) 76%, transparent 77%, transparent),
+            linear-gradient(90deg, transparent 24%, rgba(99, 102, 241, 0.03) 25%, rgba(99, 102, 241, 0.03) 26%, transparent 27%, transparent 74%, rgba(99, 102, 241, 0.03) 75%, rgba(99, 102, 241, 0.03) 76%, transparent 77%, transparent);
+            background-size: 50px 50px; pointer-events: none; z-index: 0; }
+        header { position: relative; z-index: 1; }
+        .container { position: relative; z-index: 1; }
+
+        header { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); padding: 48px 20px; text-align: center; box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2); position: relative; overflow: hidden; }
+        header::before { content: ''; position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); border-radius: 50%; }
+        header::after { content: ''; position: absolute; bottom: -30%; left: -5%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%); border-radius: 50%; }
+        header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+        header p { font-size: 14px; opacity: 0.92; font-weight: 500; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
+
+        .auth-container { background: #1a1f2e; padding: 48px; border-radius: 16px; max-width: 460px; margin: 60px auto; box-shadow: 0 25px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.05); }
+        .auth-container h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .auth-tabs { display: flex; gap: 8px; margin-bottom: 32px; }
+        .auth-tabs button { flex: 1; padding: 12px 16px; background: #262d3f; border: 1px solid transparent; border-radius: 10px; font-weight: 600; color: #94a3b8; cursor: pointer; transition: all 0.3s ease; }
+        .auth-tabs button:hover { background: #2d3448; }
+        .auth-tabs button.active { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; border-color: rgba(255,255,255,0.1); box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3); }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 13px; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select { width: 100%; padding: 12px 14px; background: #262d3f; border: 1px solid #3f4754; border-radius: 10px; font-size: 14px; color: #e0e6ed; font-family: inherit; transition: all 0.3s ease; }
+        input::placeholder { color: #64748b; }
+        input:focus, select:focus { outline: none; border-color: #6366f1; background: #2d3448; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); }
+
+        button { width: 100%; padding: 12px 16px; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 14px; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4); }
+        button:active { transform: translateY(0); }
+
+        .hidden { display: none !important; }
         .main-container { display: none; }
         .main-container.active { display: block; }
-        .user-header { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .user-header span { font-weight: 600; color: #667eea; }
-        .logout-btn { background: #dc3545; padding: 8px 16px; font-size: 12px; width: auto; }
-        .nav { display: flex; gap: 12px; margin-bottom: 20px; }
-        .nav button { flex: 1; padding: 12px; background: white; color: #667eea; border: 2px solid #667eea; border-radius: 8px; font-weight: 600; }
-        .nav button.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: transparent; }
+
+        .user-header { background: #1a1f2e; padding: 20px 24px; border-radius: 12px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
+        .user-header span { font-weight: 700; background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 15px; }
+        .logout-btn { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); padding: 9px 18px; font-size: 12px; width: auto; font-weight: 600; }
+
+        .nav { display: flex; gap: 8px; margin-bottom: 24px; }
+        .nav button { flex: 1; padding: 12px 16px; background: #262d3f; color: #94a3b8; border: 1px solid transparent; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; }
+        .nav button:hover { background: #2d3448; }
+        .nav button.active { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3); }
+
         .page { display: none; }
         .page.active { display: block; }
-        .content-box { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .content-box h2 { margin-bottom: 8px; color: #2c3e50; }
-        .content-box > p { color: #666; margin-bottom: 25px; font-size: 14px; }
-        .workout-card { background: #f8f9fb; padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #667eea; }
-        .workout-card h3 { color: #667eea; margin-bottom: 20px; }
-        .exercise-form { background: #f0f2f5; padding: 20px; border-radius: 8px; margin-top: 20px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+
+        .content-box { background: #1a1f2e; padding: 32px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); position: relative; }
+        .content-box::before { content: ''; position: absolute; top: 0; right: 0; width: 300px; height: 300px; background: radial-gradient(circle at center, rgba(99, 102, 241, 0.15) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
+        .content-box h2 { margin-bottom: 8px; color: #f1f5f9; font-size: 24px; font-weight: 700; }
+        .content-box > p { color: #94a3b8; margin-bottom: 28px; font-size: 14px; line-height: 1.5; }
+
+        .workout-card { background: #262d3f; padding: 28px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #6366f1; border: 1px solid rgba(99, 102, 241, 0.2); transition: all 0.3s ease; }
+        .workout-card:hover { border-color: rgba(99, 102, 241, 0.4); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1); }
+        .workout-card h3 { color: #e0e6ed; margin-bottom: 20px; font-size: 16px; font-weight: 700; }
+
+        .exercise-form { background: #1a1f2e; padding: 24px; border-radius: 10px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .exercise-form h4 { color: #cbd5e1; margin-bottom: 16px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
         .form-row.full { grid-template-columns: 1fr; }
-        .exercise-list { list-style: none; margin: 15px 0; }
-        .exercise-list li { background: white; padding: 14px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid #667eea; }
-        .exercise-list button { padding: 6px 12px; font-size: 12px; width: auto; background: #dc3545; margin-left: 10px; }
-        .workout-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 20px 0; }
-        .selector-btn { padding: 25px; background: white; border: 2px solid #e0e3e8; border-radius: 10px; cursor: pointer; text-align: center; }
-        .selector-btn:hover { border-color: #667eea; transform: translateY(-2px); }
-        .selector-btn.active { border-color: #667eea; background: #f0f5ff; }
-        .selector-btn h4 { color: #667eea; margin-bottom: 5px; }
-        .selector-btn p { font-size: 12px; color: #666; }
-        .exercise-item { background: #f8f9fb; padding: 20px; border-radius: 10px; margin-bottom: 16px; border-left: 4px solid #667eea; }
-        .exercise-item h4 { color: #2c3e50; margin-bottom: 8px; }
-        .exercise-item .target { color: #666; font-size: 13px; margin-bottom: 15px; }
-        .weight-input { margin-bottom: 15px; }
-        .weight-input label { margin-bottom: 6px; }
-        .weight-input input { font-size: 16px; padding: 14px; }
-        .sets-checklist { margin-top: 12px; }
-        .set-checkbox { display: flex; align-items: center; margin-bottom: 10px; padding: 10px; background: white; border-radius: 6px; cursor: pointer; }
-        .set-checkbox input[type="checkbox"] { width: 18px; height: 18px; margin-right: 10px; cursor: pointer; }
-        .set-checkbox label { margin-bottom: 0; cursor: pointer; font-weight: 500; }
-        .save-btn { margin-top: 25px; padding: 14px; font-size: 16px; }
+
+        .exercise-list { list-style: none; margin: 16px 0; }
+        .exercise-list li { background: #1a1f2e; padding: 14px 16px; margin-bottom: 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
+        .exercise-list li:hover { border-color: rgba(99, 102, 241, 0.3); background: #1f2534; }
+        .exercise-list button { padding: 6px 12px; font-size: 11px; width: auto; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); margin-left: 12px; font-weight: 600; }
+
+        .workout-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0; }
+        .selector-btn { padding: 28px 20px; background: #262d3f; border: 2px solid #3f4754; border-radius: 12px; cursor: pointer; text-align: center; transition: all 0.3s ease; }
+        .selector-btn:hover { border-color: #6366f1; transform: translateY(-4px); box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2); }
+        .selector-btn.active { border-color: #6366f1; background: rgba(99, 102, 241, 0.15); box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2); }
+        .selector-btn h4 { color: #6366f1; margin-bottom: 8px; font-size: 16px; font-weight: 700; }
+        .selector-btn p { font-size: 12px; color: #94a3b8; }
+
+        .exercise-item { background: #262d3f; padding: 24px; border-radius: 12px; margin-bottom: 18px; border-left: 4px solid #6366f1; border: 1px solid rgba(99, 102, 241, 0.2); }
+        .exercise-item h4 { color: #f1f5f9; margin-bottom: 8px; font-size: 15px; font-weight: 700; }
+        .exercise-item .target { color: #94a3b8; font-size: 13px; margin-bottom: 16px; }
+
+        .weight-input { margin-bottom: 18px; }
+        .weight-input label { margin-bottom: 8px; }
+        .weight-input input { font-size: 16px; padding: 12px 14px; }
+
+        .sets-checklist { margin-top: 16px; }
+        .sets-checklist > label { margin-bottom: 12px; font-size: 12px; }
+
+        .set-checkbox { display: flex; align-items: center; margin-bottom: 10px; padding: 10px 12px; background: #1a1f2e; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; border: 1px solid transparent; }
+        .set-checkbox:hover { background: #1f2534; border-color: rgba(99, 102, 241, 0.2); }
+        .set-checkbox input[type="checkbox"] { width: 18px; height: 18px; margin-right: 10px; cursor: pointer; accent-color: #6366f1; }
+        .set-checkbox label { margin-bottom: 0; cursor: pointer; font-weight: 500; color: #cbd5e1; }
+
+        .save-btn { margin-top: 28px; padding: 14px 16px; font-size: 15px; font-weight: 700; }
+
         .progress-view { list-style: none; }
-        .progress-view li { background: #f8f9fb; padding: 16px; margin-bottom: 12px; border-radius: 8px; border-left: 4px solid #667eea; }
-        .alert { padding: 14px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
-        .alert.error { background: #fee; color: #c33; border: 1px solid #fcc; }
-        .alert.success { background: #efe; color: #060; border: 1px solid #cfc; }
+        .progress-view li { background: #262d3f; padding: 16px 18px; margin-bottom: 12px; border-radius: 10px; border-left: 4px solid #6366f1; border: 1px solid rgba(99, 102, 241, 0.2); color: #cbd5e1; font-size: 14px; }
+        .progress-view li strong { color: #f1f5f9; font-weight: 700; }
+
+        .alert { padding: 16px 18px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; border-left: 4px solid; font-weight: 500; }
+        .alert.error { background: rgba(239, 68, 68, 0.1); color: #fca5a5; border-color: #ef4444; }
+        .alert.success { background: rgba(34, 197, 94, 0.1); color: #86efac; border-color: #22c55e; }
+
+        .client-selector { background: #262d3f; padding: 18px; border-radius: 10px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.05); }
+        .client-selector label { margin-bottom: 10px; }
+        .client-selector select { width: 100%; }
+
+        @media (max-width: 640px) {
+            .workout-selector { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            header { padding: 32px 16px; }
+            header h1 { font-size: 24px; }
+            .auth-container { padding: 32px 20px; }
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Sekou Kaba's Divine Training</h1>
-        <p>Personalized Workout Program</p>
+        <p>Track Your Progress, Master Your Goals</p>
     </header>
 
     <div class="container">
@@ -82,17 +139,19 @@
                     <button class="auth-tab-btn" data-tab="register">Register</button>
                 </div>
                 <div id="loginTab" class="auth-tab-content active">
-                    <h2 style="color: #667eea; margin-bottom: 25px;">Login</h2>
+                    <h2>Welcome Back</h2>
+                    <p style="color: #94a3b8; margin-bottom: 24px; font-size: 14px;">Sign in to your account</p>
                     <div class="form-group"><label>Email Address</label><input type="email" id="loginEmail" placeholder="you@example.com"></div>
                     <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
-                    <button onclick="login()">Login</button>
+                    <button onclick="login()">Sign In</button>
                 </div>
                 <div id="registerTab" class="auth-tab-content hidden">
-                    <h2 style="color: #667eea; margin-bottom: 25px;">Create Account</h2>
-                    <div class="form-group"><label>Full Name</label><input type="text" id="registerName" placeholder="Your name"></div>
+                    <h2>Create Account</h2>
+                    <p style="color: #94a3b8; margin-bottom: 24px; font-size: 14px;">Join Divine Training today</p>
+                    <div class="form-group"><label>Full Name</label><input type="text" id="registerName" placeholder="John Doe"></div>
                     <div class="form-group"><label>Email Address</label><input type="email" id="registerEmail" placeholder="you@example.com"></div>
                     <div class="form-group"><label>Password</label><input type="password" id="registerPassword" placeholder="••••••••"></div>
-                    <div class="form-group"><label>What is your role?</label><select id="registerRole"><option value="client">Client (Log your workouts)</option><option value="trainer">Trainer (Create workouts)</option></select></div>
+                    <div class="form-group"><label>Your Role</label><select id="registerRole"><option value="client">Client — Log Your Workouts</option><option value="trainer">Trainer — Create Programs</option></select></div>
                     <button onclick="register()">Create Account</button>
                 </div>
                 <div id="authMessage"></div>
@@ -103,30 +162,33 @@
         <div id="mainApp" class="main-container">
             <div class="user-header">
                 <span id="userGreeting"></span>
-                <button class="logout-btn" onclick="logout()">Logout</button>
+                <button class="logout-btn" onclick="logout()">Sign Out</button>
             </div>
 
             <!-- Trainer Dashboard -->
             <div id="trainerDashboard" class="hidden">
                 <div class="nav">
-                    <button class="nav-btn active" data-page="manageWorkouts">Manage Workouts</button>
-                    <button class="nav-btn" data-page="viewLogs">View Logs</button>
+                    <button class="nav-btn active" data-page="manageWorkouts">Build Programs</button>
+                    <button class="nav-btn" data-page="viewLogs">Client Progress</button>
                 </div>
+
                 <div id="manageWorkouts" class="page active">
                     <div class="content-box">
-                        <h2>Manage Workouts</h2>
-                        <p>Create and edit workout programs.</p>
+                        <h2>Workout Programs</h2>
+                        <p>Create and manage workout programs for your clients.</p>
                         <div id="workoutsList"></div>
                         <div class="workout-card">
-                            <h3>Create New Workout Day</h3>
-                            <div class="form-group"><label>Workout Name</label><input type="text" id="workoutName" placeholder="e.g., Day 1 - Upper Body"></div>
-                            <button onclick="createWorkout()">Create Workout</button>
+                            <h3>Create New Workout</h3>
+                            <div class="form-group"><label>Program Name</label><input type="text" id="workoutName" placeholder="e.g., Upper Body Strength"></div>
+                            <button onclick="createWorkout()">Create Program</button>
                         </div>
                     </div>
                 </div>
+
                 <div id="viewLogs" class="page hidden">
                     <div class="content-box">
-                        <h2>Client Logs</h2>
+                        <h2>Client Progress</h2>
+                        <p>View your clients' workout history and progress.</p>
                         <div id="clientLogsList"></div>
                     </div>
                 </div>
@@ -136,14 +198,14 @@
             <div id="clientDashboard" class="hidden">
                 <div class="nav">
                     <button class="nav-btn active" data-page="logWorkout">Log Workout</button>
-                    <button class="nav-btn" data-page="logWeight">Log Weight</button>
-                    <button class="nav-btn" data-page="viewProgress">Your Progress</button>
+                    <button class="nav-btn" data-page="logWeight">Body Weight</button>
+                    <button class="nav-btn" data-page="viewProgress">My Progress</button>
                 </div>
 
                 <div id="logWorkout" class="page active">
                     <div class="content-box">
-                        <h2>Log Today's Workout</h2>
-                        <p>Select a workout day and complete your exercises.</p>
+                        <h2>Today's Workout</h2>
+                        <p>Select a program and complete your workout.</p>
                         <div class="workout-selector" id="workoutSelector"></div>
                         <div id="exerciseLogger" class="hidden"><div id="exerciseLoggerContent"></div></div>
                     </div>
@@ -151,16 +213,16 @@
 
                 <div id="logWeight" class="page hidden">
                     <div class="content-box">
-                        <h2>Log Your Weight</h2>
-                        <p>Track your body weight over time.</p>
+                        <h2>Track Body Weight</h2>
+                        <p>Monitor your weight progress over time.</p>
                         <div class="workout-card">
                             <h3>Record Weight</h3>
                             <div class="form-group"><label>Date</label><input type="date" id="weightDate"></div>
-                            <div class="form-group"><label>Body Weight (lbs)</label><input type="number" id="weightValue" placeholder="e.g., 235" step="0.1"></div>
-                            <div class="form-group"><label>Notes (optional)</label><input type="text" id="weightNotes" placeholder="Morning, fasted"></div>
+                            <div class="form-group"><label>Body Weight</label><input type="number" id="weightValue" placeholder="e.g., 185" step="0.1"> <span style="color: #94a3b8; font-size: 12px;">(lbs)</span></div>
+                            <div class="form-group"><label>Notes (optional)</label><input type="text" id="weightNotes" placeholder="Morning, fasted..."></div>
                             <button onclick="logWeight()">Save Weight</button>
                         </div>
-                        <h3 style="margin-top: 30px;">Weight History</h3>
+                        <h3 style="margin-top: 32px; margin-bottom: 16px; color: #f1f5f9; font-weight: 700;">Weight History</h3>
                         <ul class="progress-view" id="weightHistory"></ul>
                     </div>
                 </div>
@@ -168,7 +230,7 @@
                 <div id="viewProgress" class="page hidden">
                     <div class="content-box">
                         <h2>Your Progress</h2>
-                        <p>Track your workouts and weight over time.</p>
+                        <p>Track workouts and weight combined on your timeline.</p>
                         <ul class="progress-view" id="progressView"></ul>
                     </div>
                 </div>
@@ -231,7 +293,7 @@
             try {
                 const res = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, password, role }) });
                 const data = await res.json();
-                if (data.success) { showMessage('Account created! Please login.', 'success'); setTimeout(() => { document.querySelector('[data-tab="login"]').click(); }, 500); }
+                if (data.success) { showMessage('Account created! Signing in...', 'success'); setTimeout(() => { document.querySelector('[data-tab="login"]').click(); }, 1000); }
                 else { showMessage(data.error, 'error'); }
             } catch (err) { showMessage('Registration failed: ' + err.message, 'error'); }
         }
@@ -241,7 +303,7 @@
         function showMainApp() {
             document.getElementById('authPage').classList.remove('active');
             document.getElementById('mainApp').classList.add('active');
-            document.getElementById('userGreeting').textContent = currentUser.name + ' (' + currentUser.role + ')';
+            document.getElementById('userGreeting').textContent = `${currentUser.name} (${currentUser.role === 'trainer' ? 'Coach' : 'Athlete'})`;
             if (currentUser.role === 'trainer') { document.getElementById('trainerDashboard').classList.remove('hidden'); document.getElementById('clientDashboard').classList.add('hidden'); loadWorkouts(); }
             else { document.getElementById('trainerDashboard').classList.add('hidden'); document.getElementById('clientDashboard').classList.remove('hidden'); loadClientWorkouts(); }
         }
@@ -252,7 +314,7 @@
                 const workouts = await res.json();
                 let html = '';
                 for (const workout of workouts) {
-                    html += `<div class="workout-card"><h3>${workout.name}</h3><div id="exercises-${workout.id}"></div><div class="exercise-form"><h4>Add New Exercise</h4><input type="hidden" class="workoutId" value="${workout.id}"><div class="form-row"><div class="form-group"><label>Exercise Name</label><input type="text" class="exerciseName" placeholder="e.g., Lat Pulldown"></div><div class="form-group"><label>Sets</label><input type="number" class="targetSets" value="3"></div></div><div class="form-row"><div class="form-group"><label>Min Reps</label><input type="number" class="targetRepsMin" value="8"></div><div class="form-group"><label>Max Reps</label><input type="number" class="targetRepsMax" value="12"></div></div><div class="form-row full"><div class="form-group"><label>Form Tips (optional)</label><input type="text" class="exerciseNotes"></div></div><button onclick="addExercise(${workout.id})">Add Exercise</button></div></div>`;
+                    html += `<div class="workout-card"><h3>${workout.name}</h3><div id="exercises-${workout.id}"></div><div class="exercise-form"><h4>Add Exercise</h4><input type="hidden" class="workoutId" value="${workout.id}"><div class="form-row"><div class="form-group"><label>Exercise Name</label><input type="text" class="exerciseName" placeholder="e.g., Bench Press"></div><div class="form-group"><label>Sets</label><input type="number" class="targetSets" value="3"></div></div><div class="form-row"><div class="form-group"><label>Min Reps</label><input type="number" class="targetRepsMin" value="8"></div><div class="form-group"><label>Max Reps</label><input type="number" class="targetRepsMax" value="12"></div></div><div class="form-row full"><div class="form-group"><label>Form Tips (optional)</label><input type="text" class="exerciseNotes"></div></div><button onclick="addExercise(${workout.id})">Add Exercise</button></div></div>`;
                 }
                 document.getElementById('workoutsList').innerHTML = html;
                 for (const workout of workouts) { await loadExercises(workout.id); }
@@ -272,11 +334,11 @@
 
         async function createWorkout() {
             const name = document.getElementById('workoutName').value;
-            if (!name) { showMessage('Please enter a workout name', 'error'); return; }
+            if (!name) { showMessage('Please enter a program name', 'error'); return; }
             try {
                 const res = await fetch('/api/workouts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, trainerId: currentUser.id }) });
                 const data = await res.json();
-                if (data.success) { document.getElementById('workoutName').value = ''; showMessage('Workout created!', 'success'); loadWorkouts(); }
+                if (data.success) { document.getElementById('workoutName').value = ''; showMessage('Program created!', 'success'); loadWorkouts(); }
             } catch (err) { showMessage('Error: ' + err.message, 'error'); }
         }
 
@@ -324,13 +386,13 @@
                 const res = await fetch(`/api/exercises/${workoutId}`);
                 const exercises = await res.json();
                 const today = new Date().toISOString().split('T')[0];
-                let html = `<h3>${workoutName}</h3>`;
+                let html = `<h3 style="color: #f1f5f9; margin-bottom: 20px; font-size: 20px; font-weight: 700;">${workoutName}</h3>`;
                 for (const ex of exercises) {
-                    html += `<div class="exercise-item"><h4>${ex.name}</h4><div class="target">Target: ${ex.target_sets} sets of ${ex.target_reps_min}-${ex.target_reps_max} reps${ex.notes ? ' — ' + ex.notes : ''}</div><div class="weight-input"><label>Weight Used</label><input type="number" placeholder="Weight (lbs or kg)" class="weight-${ex.id}" step="0.5"></div><div class="sets-checklist"><label style="font-weight: 600; margin-bottom: 10px; display: block;">Complete Sets:</label>`;
+                    html += `<div class="exercise-item"><h4>${ex.name}</h4><div class="target">Target: ${ex.target_sets} sets of ${ex.target_reps_min}-${ex.target_reps_max} reps${ex.notes ? ' — ' + ex.notes : ''}</div><div class="weight-input"><label>Weight Used</label><input type="number" placeholder="lbs or kg" class="weight-${ex.id}" step="0.5"></div><div class="sets-checklist"><label>Complete ${ex.target_sets} Set${ex.target_sets > 1 ? 's' : ''}:</label>`;
                     for (let i = 1; i <= ex.target_sets; i++) { html += `<div class="set-checkbox"><input type="checkbox" id="set-${ex.id}-${i}" class="set-${ex.id}"><label for="set-${ex.id}-${i}">Set ${i}</label></div>`; }
                     html += `</div></div>`;
                 }
-                html += `<button class="save-btn" onclick="saveWorkout('${today}')">Save Workout</button>`;
+                html += `<button class="save-btn" onclick="saveWorkout('${today}')">Complete Workout</button>`;
                 document.getElementById('exerciseLoggerContent').innerHTML = html;
                 document.getElementById('exerciseLogger').classList.remove('hidden');
             } catch (err) { console.error('Error:', err); }
@@ -356,8 +418,8 @@
                     } catch (err) { console.error('Error:', err); }
                 }
             }
-            showMessage(`Workout saved! ${savedCount} exercises logged.`, 'success');
-            setTimeout(() => { document.getElementById('exerciseLogger').innerHTML = ''; document.getElementById('exerciseLogger').classList.add('hidden'); document.querySelectorAll('.selector-btn').forEach(btn => btn.classList.remove('active')); }, 1500);
+            showMessage(`Workout logged! ${savedCount} exercises saved.`, 'success');
+            setTimeout(() => { document.getElementById('exerciseLogger').innerHTML = ''; document.getElementById('exerciseLogger').classList.add('hidden'); document.querySelectorAll('.selector-btn').forEach(btn => btn.classList.remove('active')); }, 2000);
         }
 
         async function logWeight() {
@@ -376,9 +438,9 @@
             try {
                 const res = await fetch(`/api/weights/${currentUser.id}`);
                 const weights = await res.json();
-                if (weights.length === 0) { document.getElementById('weightHistory').innerHTML = '<li style="background: #f0f5ff; color: #667eea;">No weight entries yet.</li>'; return; }
+                if (weights.length === 0) { document.getElementById('weightHistory').innerHTML = '<li style="background: rgba(99, 102, 241, 0.1); color: #6366f1; border-color: #6366f1;">No weight entries yet. Start tracking!</li>'; return; }
                 let html = '';
-                for (const entry of weights) { html += `<li><strong>${entry.weight_date}</strong> — <strong>${entry.weight_value} lbs</strong>${entry.notes ? ' <em>(' + entry.notes + ')</em>' : ''}</li>`; }
+                for (const entry of weights) { html += `<li><strong>${entry.weight_date}</strong> — <strong>${entry.weight_value} lbs</strong>${entry.notes ? ' <span style="color: #94a3b8;">(' + entry.notes + ')</span>' : ''}</li>`; }
                 document.getElementById('weightHistory').innerHTML = html;
             } catch (err) { console.error('Error:', err); }
         }
@@ -393,11 +455,11 @@
                 for (const entry of workoutHistory) { allEntries.push({ date: entry.workout_date, type: 'workout', data: entry }); }
                 for (const entry of weightHistory) { allEntries.push({ date: entry.weight_date, type: 'weight', data: entry }); }
                 allEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
-                if (allEntries.length === 0) { document.getElementById('progressView').innerHTML = '<li style="background: #f0f5ff; color: #667eea;">No data yet. Log a workout or weight!</li>'; return; }
+                if (allEntries.length === 0) { document.getElementById('progressView').innerHTML = '<li style="background: rgba(99, 102, 241, 0.1); color: #6366f1; border-color: #6366f1;">No data yet. Log a workout or weight to get started!</li>'; return; }
                 let html = '';
                 for (const entry of allEntries) {
-                    if (entry.type === 'workout') { html += `<li><strong>📅 Workout: ${entry.date}</strong></li>`; }
-                    else { html += `<li><strong>⚖️ Weight: ${entry.data.weight_value} lbs — ${entry.date}</strong>${entry.data.notes ? ' <em>(' + entry.data.notes + ')</em>' : ''}</li>`; }
+                    if (entry.type === 'workout') { html += `<li><strong>💪 Workout</strong><span style="color: #94a3b8; margin-left: 8px;">${entry.date}</span></li>`; }
+                    else { html += `<li><strong>⚖️ ${entry.data.weight_value} lbs</strong><span style="color: #94a3b8; margin-left: 8px;">${entry.date}</span>${entry.data.notes ? ' — <span style="color: #94a3b8;">' + entry.data.notes + '</span>' : ''}</li>`; }
                 }
                 document.getElementById('progressView').innerHTML = html;
             } catch (err) { console.error('Error:', err); }
@@ -407,10 +469,11 @@
             try {
                 const res = await fetch(`/api/client-history/${1}`);
                 const history = await res.json();
-                if (history.length === 0) { document.getElementById('clientLogsList').innerHTML = '<p style="color: #666;">No logs yet.</p>'; return; }
-                let html = '';
-                for (const entry of history) { html += `<li style="background: #f8f9fb; padding: 16px; margin-bottom: 12px; border-radius: 8px; border-left: 4px solid #667eea;"><strong>${entry.workout_date}</strong></li>`; }
-                document.getElementById('clientLogsList').innerHTML = `<ul class="progress-view">${html}</ul>`;
+                if (history.length === 0) { document.getElementById('clientLogsList').innerHTML = '<p style="color: #94a3b8;">No logs yet.</p>'; return; }
+                let html = '<ul class="progress-view">';
+                for (const entry of history) { html += `<li><strong>💪 Workout logged</strong><span style="color: #94a3b8; margin-left: 8px;">${entry.workout_date}</span></li>`; }
+                html += '</ul>';
+                document.getElementById('clientLogsList').innerHTML = html;
             } catch (err) { console.error('Error:', err); }
         }
 
