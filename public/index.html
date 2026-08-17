@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sekou Kaba's Divine Training</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fafafa; color: #2c3e50; }
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; text-align: center; }
+        header h1 { font-size: 28px; font-weight: 700; margin-bottom: 5px; }
+        header p { font-size: 13px; opacity: 0.95; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .auth-container { background: white; padding: 40px; border-radius: 12px; max-width: 420px; margin: 40px auto; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .auth-tabs { display: flex; gap: 12px; margin-bottom: 35px; }
+        .auth-tabs button { flex: 1; padding: 12px; background: #f0f2f5; border: none; border-radius: 8px; font-weight: 600; color: #666; cursor: pointer; }
+        .auth-tabs button.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; }
+        input, select { width: 100%; padding: 12px; border: 1.5px solid #e0e3e8; border-radius: 8px; font-size: 14px; font-family: inherit; }
+        input:focus, select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+        button { width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.3); }
+        .hidden { display: none; }
+        .main-container { display: none; }
+        .main-container.active { display: block; }
+        .user-header { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .user-header span { font-weight: 600; color: #667eea; }
+        .logout-btn { background: #dc3545; padding: 8px 16px; font-size: 12px; width: auto; }
+        .nav { display: flex; gap: 12px; margin-bottom: 20px; }
+        .nav button { flex: 1; padding: 12px; background: white; color: #667eea; border: 2px solid #667eea; border-radius: 8px; font-weight: 600; }
+        .nav button.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: transparent; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .content-box { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .content-box h2 { margin-bottom: 8px; color: #2c3e50; }
+        .content-box > p { color: #666; margin-bottom: 25px; font-size: 14px; }
+        .workout-card { background: #f8f9fb; padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #667eea; }
+        .workout-card h3 { color: #667eea; margin-bottom: 20px; }
+        .exercise-form { background: #f0f2f5; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .form-row.full { grid-template-columns: 1fr; }
+        .exercise-list { list-style: none; margin: 15px 0; }
+        .exercise-list li { background: white; padding: 14px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid #667eea; }
+        .exercise-list button { padding: 6px 12px; font-size: 12px; width: auto; background: #dc3545; margin-left: 10px; }
+        .workout-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 20px 0; }
+        .selector-btn { padding: 25px; background: white; border: 2px solid #e0e3e8; border-radius: 10px; cursor: pointer; text-align: center; }
+        .selector-btn:hover { border-color: #667eea; transform: translateY(-2px); }
+        .selector-btn.active { border-color: #667eea; background: #f0f5ff; }
+        .selector-btn h4 { color: #667eea; margin-bottom: 5px; }
+        .selector-btn p { font-size: 12px; color: #666; }
+        .exercise-item { background: #f8f9fb; padding: 20px; border-radius: 10px; margin-bottom: 16px; border-left: 4px solid #667eea; }
+        .exercise-item h4 { color: #2c3e50; margin-bottom: 8px; }
+        .exercise-item .target { color: #666; font-size: 13px; margin-bottom: 15px; }
+        .weight-input { margin-bottom: 15px; }
+        .weight-input label { margin-bottom: 6px; }
+        .weight-input input { font-size: 16px; padding: 14px; }
+        .sets-checklist { margin-top: 12px; }
+        .set-checkbox { display: flex; align-items: center; margin-bottom: 10px; padding: 10px; background: white; border-radius: 6px; cursor: pointer; }
+        .set-checkbox input[type="checkbox"] { width: 18px; height: 18px; margin-right: 10px; cursor: pointer; }
+        .set-checkbox label { margin-bottom: 0; cursor: pointer; font-weight: 500; }
+        .save-btn { margin-top: 25px; padding: 14px; font-size: 16px; }
+        .progress-view { list-style: none; }
+        .progress-view li { background: #f8f9fb; padding: 16px; margin-bottom: 12px; border-radius: 8px; border-left: 4px solid #667eea; }
+        .alert { padding: 14px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
+        .alert.error { background: #fee; color: #c33; border: 1px solid #fcc; }
+        .alert.success { background: #efe; color: #060; border: 1px solid #cfc; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sekou Kaba's Divine Training</h1>
+        <p>Personalized Workout Program</p>
+    </header>
+
+    <div class="container">
+        <!-- Auth Page -->
+        <div id="authPage" class="page active">
+            <div class="auth-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" data-tab="login">Login</button>
+                    <button class="auth-tab-btn" data-tab="register">Register</button>
+                </div>
+                <div id="loginTab" class="auth-tab-content active">
+                    <h2 style="color: #667eea; margin-bottom: 25px;">Login</h2>
+                    <div class="form-group"><label>Email Address</label><input type="email" id="loginEmail" placeholder="you@example.com"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
+                    <button onclick="login()">Login</button>
+                </div>
+                <div id="registerTab" class="auth-tab-content hidden">
+                    <h2 style="color: #667eea; margin-bottom: 25px;">Create Account</h2>
+                    <div class="form-group"><label>Full Name</label><input type="text" id="registerName" placeholder="Your name"></div>
+                    <div class="form-group"><label>Email Address</label><input type="email" id="registerEmail" placeholder="you@example.com"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="registerPassword" placeholder="••••••••"></div>
+                    <div class="form-group"><label>What is your role?</label><select id="registerRole"><option value="client">Client (Log your workouts)</option><option value="trainer">Trainer (Create workouts)</option></select></div>
+                    <button onclick="register()">Create Account</button>
+                </div>
+                <div id="authMessage"></div>
+            </div>
+        </div>
+
+        <!-- Main App -->
+        <div id="mainApp" class="main-container">
+            <div class="user-header">
+                <span id="userGreeting"></span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+
+            <!-- Trainer Dashboard -->
+            <div id="trainerDashboard" class="hidden">
+                <div class="nav">
+                    <button class="nav-btn active" data-page="manageWorkouts">Manage Workouts</button>
+                    <button class="nav-btn" data-page="viewLogs">View Logs</button>
+                </div>
+                <div id="manageWorkouts" class="page active">
+                    <div class="content-box">
+                        <h2>Manage Workouts</h2>
+                        <p>Create and edit workout programs.</p>
+                        <div id="workoutsList"></div>
+                        <div class="workout-card">
+                            <h3>Create New Workout Day</h3>
+                            <div class="form-group"><label>Workout Name</label><input type="text" id="workoutName" placeholder="e.g., Day 1 - Upper Body"></div>
+                            <button onclick="createWorkout()">Create Workout</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="viewLogs" class="page hidden">
+                    <div class="content-box">
+                        <h2>Client Logs</h2>
+                        <div id="clientLogsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Dashboard -->
+            <div id="clientDashboard" class="hidden">
+                <div class="nav">
+                    <button class="nav-btn active" data-page="logWorkout">Log Workout</button>
+                    <button class="nav-btn" data-page="logWeight">Log Weight</button>
+                    <button class="nav-btn" data-page="viewProgress">Your Progress</button>
+                </div>
+
+                <div id="logWorkout" class="page active">
+                    <div class="content-box">
+                        <h2>Log Today's Workout</h2>
+                        <p>Select a workout day and complete your exercises.</p>
+                        <div class="workout-selector" id="workoutSelector"></div>
+                        <div id="exerciseLogger" class="hidden"><div id="exerciseLoggerContent"></div></div>
+                    </div>
+                </div>
+
+                <div id="logWeight" class="page hidden">
+                    <div class="content-box">
+                        <h2>Log Your Weight</h2>
+                        <p>Track your body weight over time.</p>
+                        <div class="workout-card">
+                            <h3>Record Weight</h3>
+                            <div class="form-group"><label>Date</label><input type="date" id="weightDate"></div>
+                            <div class="form-group"><label>Body Weight (lbs)</label><input type="number" id="weightValue" placeholder="e.g., 235" step="0.1"></div>
+                            <div class="form-group"><label>Notes (optional)</label><input type="text" id="weightNotes" placeholder="Morning, fasted"></div>
+                            <button onclick="logWeight()">Save Weight</button>
+                        </div>
+                        <h3 style="margin-top: 30px;">Weight History</h3>
+                        <ul class="progress-view" id="weightHistory"></ul>
+                    </div>
+                </div>
+
+                <div id="viewProgress" class="page hidden">
+                    <div class="content-box">
+                        <h2>Your Progress</h2>
+                        <p>Track your workouts and weight over time.</p>
+                        <ul class="progress-view" id="progressView"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let currentWorkout = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedUser = localStorage.getItem('user');
+            if (savedUser) { currentUser = JSON.parse(savedUser); showMainApp(); }
+
+            document.querySelectorAll('.auth-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tab = btn.dataset.tab;
+                    document.querySelectorAll('.auth-tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.auth-tab-content').forEach(c => c.classList.add('hidden'));
+                    btn.classList.add('active');
+                    document.getElementById(tab + 'Tab').classList.remove('hidden');
+                });
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const page = btn.dataset.page;
+                    const dashboard = btn.closest('[id$="Dashboard"]');
+                    dashboard.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    dashboard.querySelector('#' + page).classList.add('active');
+                    dashboard.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    if (page === 'viewProgress') loadProgress();
+                    if (page === 'logWeight') { document.getElementById('weightDate').valueAsDate = new Date(); loadWeightHistory(); }
+                    if (page === 'viewLogs') loadClientLogs();
+                });
+            });
+        });
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            if (!email || !password) { showMessage('Please fill in all fields', 'error'); return; }
+            try {
+                const res = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+                const data = await res.json();
+                if (data.success) { currentUser = data.user; localStorage.setItem('user', JSON.stringify(currentUser)); showMainApp(); }
+                else { showMessage(data.error, 'error'); }
+            } catch (err) { showMessage('Login failed: ' + err.message, 'error'); }
+        }
+
+        async function register() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const role = document.getElementById('registerRole').value;
+            if (!name || !email || !password) { showMessage('Please fill in all fields', 'error'); return; }
+            try {
+                const res = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, password, role }) });
+                const data = await res.json();
+                if (data.success) { showMessage('Account created! Please login.', 'success'); setTimeout(() => { document.querySelector('[data-tab="login"]').click(); }, 500); }
+                else { showMessage(data.error, 'error'); }
+            } catch (err) { showMessage('Registration failed: ' + err.message, 'error'); }
+        }
+
+        function logout() { currentUser = null; localStorage.removeItem('user'); document.getElementById('authPage').classList.add('active'); document.getElementById('mainApp').classList.remove('active'); }
+
+        function showMainApp() {
+            document.getElementById('authPage').classList.remove('active');
+            document.getElementById('mainApp').classList.add('active');
+            document.getElementById('userGreeting').textContent = currentUser.name + ' (' + currentUser.role + ')';
+            if (currentUser.role === 'trainer') { document.getElementById('trainerDashboard').classList.remove('hidden'); document.getElementById('clientDashboard').classList.add('hidden'); loadWorkouts(); }
+            else { document.getElementById('trainerDashboard').classList.add('hidden'); document.getElementById('clientDashboard').classList.remove('hidden'); loadClientWorkouts(); }
+        }
+
+        async function loadWorkouts() {
+            try {
+                const res = await fetch(`/api/workouts/${currentUser.id}`);
+                const workouts = await res.json();
+                let html = '';
+                for (const workout of workouts) {
+                    html += `<div class="workout-card"><h3>${workout.name}</h3><div id="exercises-${workout.id}"></div><div class="exercise-form"><h4>Add New Exercise</h4><input type="hidden" class="workoutId" value="${workout.id}"><div class="form-row"><div class="form-group"><label>Exercise Name</label><input type="text" class="exerciseName" placeholder="e.g., Lat Pulldown"></div><div class="form-group"><label>Sets</label><input type="number" class="targetSets" value="3"></div></div><div class="form-row"><div class="form-group"><label>Min Reps</label><input type="number" class="targetRepsMin" value="8"></div><div class="form-group"><label>Max Reps</label><input type="number" class="targetRepsMax" value="12"></div></div><div class="form-row full"><div class="form-group"><label>Form Tips (optional)</label><input type="text" class="exerciseNotes"></div></div><button onclick="addExercise(${workout.id})">Add Exercise</button></div></div>`;
+                }
+                document.getElementById('workoutsList').innerHTML = html;
+                for (const workout of workouts) { await loadExercises(workout.id); }
+            } catch (err) { console.error('Error:', err); }
+        }
+
+        async function loadExercises(workoutId) {
+            try {
+                const res = await fetch(`/api/exercises/${workoutId}`);
+                const exercises = await res.json();
+                let html = '<ul class="exercise-list">';
+                for (const ex of exercises) { html += `<li><span><strong>${ex.name}</strong> — ${ex.target_sets}×${ex.target_reps_min}-${ex.target_reps_max}${ex.notes ? ' — ' + ex.notes : ''}</span><button onclick="deleteExercise(${ex.id}, ${workoutId})">Delete</button></li>`; }
+                html += '</ul>';
+                document.getElementById(`exercises-${workoutId}`).innerHTML = html;
+            } catch (err) { console.error('Error:', err); }
+        }
+
+        async function createWorkout() {
+            const name = document.getElementById('workoutName').value;
+            if (!name) { showMessage('Please enter a workout name', 'error'); return; }
+            try {
+                const res = await fetch('/api/workouts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, trainerId: currentUser.id }) });
+                const data = await res.json();
+                if (data.success) { document.getElementById('workoutName').value = ''; showMessage('Workout created!', 'success'); loadWorkouts(); }
+            } catch (err) { showMessage('Error: ' + err.message, 'error'); }
+        }
+
+        async function addExercise(workoutId) {
+            const card = document.querySelector(`[class="workout-card"]:has(.workoutId[value="${workoutId}"])`);
+            const name = card.querySelector('.exerciseName').value;
+            const targetSets = parseInt(card.querySelector('.targetSets').value);
+            const targetRepsMin = parseInt(card.querySelector('.targetRepsMin').value);
+            const targetRepsMax = parseInt(card.querySelector('.targetRepsMax').value);
+            const notes = card.querySelector('.exerciseNotes').value;
+            if (!name) { showMessage('Please enter exercise name', 'error'); return; }
+            const exerciseOrder = document.querySelectorAll(`#exercises-${workoutId} li`).length + 1;
+            try {
+                const res = await fetch('/api/exercises', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ workoutId, name, targetSets, targetRepsMin, targetRepsMax, notes, exerciseOrder }) });
+                const data = await res.json();
+                if (data.success) { card.querySelector('.exerciseName').value = ''; card.querySelector('.exerciseNotes').value = ''; loadExercises(workoutId); showMessage('Exercise added!', 'success'); }
+            } catch (err) { showMessage('Error: ' + err.message, 'error'); }
+        }
+
+        async function deleteExercise(exerciseId, workoutId) {
+            if (!confirm('Delete this exercise?')) return;
+            try {
+                const res = await fetch(`/api/exercises/${exerciseId}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) { loadExercises(workoutId); showMessage('Exercise deleted!', 'success'); }
+            } catch (err) { showMessage('Error: ' + err.message, 'error'); }
+        }
+
+        async function loadClientWorkouts() {
+            try {
+                const trainerId = 1;
+                const res = await fetch(`/api/client-workouts/${trainerId}`);
+                const workouts = await res.json();
+                let html = '';
+                for (const workout of workouts) { html += `<div class="selector-btn" onclick="selectWorkout(${workout.id}, '${workout.name}')"><h4>${workout.name}</h4><p>Complete today</p></div>`; }
+                document.getElementById('workoutSelector').innerHTML = html;
+            } catch (err) { console.error('Error:', err); }
+        }
+
+        async function selectWorkout(workoutId, workoutName) {
+            currentWorkout = workoutId;
+            document.querySelectorAll('.selector-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.selector-btn').classList.add('active');
+            try {
+                const res = await fetch(`/api/exercises/${workoutId}`);
+                const exercises = await res.json();
+                const today = new Date().toISOString().split('T')[0];
+                let html = `<h3>${workoutName}</h3>`;
+                for (const ex of exercises) {
+                    html += `<div class="exercise-item"><h4>${ex.name}</h4><div class="target">Target: ${ex.target_sets} sets of ${ex.target_reps_min}-${ex.target_reps_max} reps${ex.notes ? ' — ' + ex.notes : ''}</div><div class="weight-input"><label>Weight Used</label><input type="number" placeholder="Weight (lbs or kg)" class="weight-${ex.id}" step="0.5"></div><div class="sets-checklist"><label style="font-weight: 600; margin-bottom: 10px; display: block;">Complete Sets:</label>`;
+                    for (let i = 1; i <= ex.target_sets; i++) { html += `<div class="set-checkbox"><input type="checkbox" id="set-${ex.id}-${i}" class="set-${ex.id}"><label for="set-${ex.id}-${i}">Set ${i}</label></div>`; }
+                    html += `</div></div>`;
+                }
+                html += `<button class="save-btn" onclick="saveWorkout('${today}')">Save Workout</button>`;
+                document.getElementById('exerciseLoggerContent').innerHTML = html;
+                document.getElementById('exerciseLogger').classList.remove('hidden');
+            } catch (err) { console.error('Error:', err); }
+        }
+
+        async function saveWorkout(date) {
+            const exercises = document.querySelectorAll('.exercise-item h4');
+            let savedCount = 0;
+            for (const exHeader of exercises) {
+                const exerciseName = exHeader.textContent;
+                const item = exHeader.closest('.exercise-item');
+                const weight = parseFloat(item.querySelector('[class^="weight-"]').value);
+                if (weight) {
+                    try {
+                        const res = await fetch(`/api/exercises/${currentWorkout}`);
+                        const workoutExercises = await res.json();
+                        const exercise = workoutExercises.find(e => e.name === exerciseName);
+                        if (exercise) {
+                            const logRes = await fetch('/api/logged-sets', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ exerciseId: exercise.id, clientId: currentUser.id, workoutDate: date, weightUsed: weight, repsCompleted: exercise.target_reps_max, notes: '' }) });
+                            const data = await logRes.json();
+                            if (data.success) savedCount++;
+                        }
+                    } catch (err) { console.error('Error:', err); }
+                }
+            }
+            showMessage(`Workout saved! ${savedCount} exercises logged.`, 'success');
+            setTimeout(() => { document.getElementById('exerciseLogger').innerHTML = ''; document.getElementById('exerciseLogger').classList.add('hidden'); document.querySelectorAll('.selector-btn').forEach(btn => btn.classList.remove('active')); }, 1500);
+        }
+
+        async function logWeight() {
+            const date = document.getElementById('weightDate').value;
+            const weight = parseFloat(document.getElementById('weightValue').value);
+            const notes = document.getElementById('weightNotes').value;
+            if (!date || !weight) { showMessage('Please fill in date and weight', 'error'); return; }
+            try {
+                const res = await fetch('/api/log-weight', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ clientId: currentUser.id, weightDate: date, weightValue: weight, notes: notes }) });
+                const data = await res.json();
+                if (data.success) { document.getElementById('weightDate').value = ''; document.getElementById('weightValue').value = ''; document.getElementById('weightNotes').value = ''; showMessage('Weight logged!', 'success'); loadWeightHistory(); }
+            } catch (err) { showMessage('Error: ' + err.message, 'error'); }
+        }
+
+        async function loadWeightHistory() {
+            try {
+                const res = await fetch(`/api/weights/${currentUser.id}`);
+                const weights = await res.json();
+                if (weights.length === 0) { document.getElementById('weightHistory').innerHTML = '<li style="background: #f0f5ff; color: #667eea;">No weight entries yet.</li>'; return; }
+                let html = '';
+                for (const entry of weights) { html += `<li><strong>${entry.weight_date}</strong> — <strong>${entry.weight_value} lbs</strong>${entry.notes ? ' <em>(' + entry.notes + ')</em>' : ''}</li>`; }
+                document.getElementById('weightHistory').innerHTML = html;
+            } catch (err) { console.error('Error:', err); }
+        }
+
+        async function loadProgress() {
+            try {
+                const workoutRes = await fetch(`/api/client-history/${currentUser.id}`);
+                const workoutHistory = await workoutRes.json();
+                const weightRes = await fetch(`/api/weights/${currentUser.id}`);
+                const weightHistory = await weightRes.json();
+                let allEntries = [];
+                for (const entry of workoutHistory) { allEntries.push({ date: entry.workout_date, type: 'workout', data: entry }); }
+                for (const entry of weightHistory) { allEntries.push({ date: entry.weight_date, type: 'weight', data: entry }); }
+                allEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
+                if (allEntries.length === 0) { document.getElementById('progressView').innerHTML = '<li style="background: #f0f5ff; color: #667eea;">No data yet. Log a workout or weight!</li>'; return; }
+                let html = '';
+                for (const entry of allEntries) {
+                    if (entry.type === 'workout') { html += `<li><strong>📅 Workout: ${entry.date}</strong></li>`; }
+                    else { html += `<li><strong>⚖️ Weight: ${entry.data.weight_value} lbs — ${entry.date}</strong>${entry.data.notes ? ' <em>(' + entry.data.notes + ')</em>' : ''}</li>`; }
+                }
+                document.getElementById('progressView').innerHTML = html;
+            } catch (err) { console.error('Error:', err); }
+        }
+
+        async function loadClientLogs() {
+            try {
+                const res = await fetch(`/api/client-history/${1}`);
+                const history = await res.json();
+                if (history.length === 0) { document.getElementById('clientLogsList').innerHTML = '<p style="color: #666;">No logs yet.</p>'; return; }
+                let html = '';
+                for (const entry of history) { html += `<li style="background: #f8f9fb; padding: 16px; margin-bottom: 12px; border-radius: 8px; border-left: 4px solid #667eea;"><strong>${entry.workout_date}</strong></li>`; }
+                document.getElementById('clientLogsList').innerHTML = `<ul class="progress-view">${html}</ul>`;
+            } catch (err) { console.error('Error:', err); }
+        }
+
+        function showMessage(msg, type) {
+            const div = document.createElement('div');
+            div.className = `alert ${type}`;
+            div.textContent = msg;
+            document.body.insertBefore(div, document.querySelector('header').nextSibling);
+            setTimeout(() => div.remove(), 4000);
+        }
+    </script>
+</body>
+</html>
