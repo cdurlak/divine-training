@@ -1,0 +1,7 @@
+node_modules/
+divine.db
+.DS_Store
+.env
+.env.local
+*.log
+dist/
